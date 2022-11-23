@@ -1,0 +1,21 @@
+{
+  "name": "blackredtable_api",
+  "version": "v0.1",
+  "description": "test",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "RandGor",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "engine.io": ">=4.0.0",
+    "express": "^4.16.3",
+    "mariadb": "^3.0.2",
+    "multer": "*",
+    "nodemon": "^2.0.16",
+    "socket.io": ">=3.3.2"
+  }
+}
