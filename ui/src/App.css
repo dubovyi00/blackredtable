@@ -1,18 +1,145 @@
+body {
+    background-color: rgb(250, 247, 240);
+}
+
+.test-window {
+    display: flex;
+}
+
+.sign-in {
+    display: flex;
+    margin-top: 12%;
+    
+}
+
+.sign-in_auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 25%;
+}
+
+.sign-in_register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10%;
+}
+
+div.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    margin-top: 10%;
+}
+
+div.register-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    margin: 2% 0;
+}
+
+.tutorial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    margin-top: 5%;
+}
+
+.tutorial-box {
+    width: 60%;
+}
+
+.test-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.summary-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.summary-result_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 40%;
+    margin-top: 4%;
+}
+
+.register-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
 button.black {
     background-color: rgb(37, 36, 36);
     color: white;
+    width: 60px;
+    height: 60px;
 }
 
 button.red {
     background-color: rgb(249, 50, 50);
     color: rgb(29, 29, 29);
+    width: 60px;
+    height: 60px;
+}
+
+button.toogle {
+    margin-top: 10px;
+    height: 50px;
+    background-color: inherit;
+}
+
+button.toogle:hover {
+    background-color: rgb(230, 221, 221);
 }
 
 button {
-    width: 60px;
-    height: 60px;
     font-size: 24px;
     border: none;
+}
+
+button.register {
+    font-family: "Century Gothic";
+    margin-bottom: 10px;
+    background-color: inherit;
+}
+
+button.register::before {
+    content: "[";
+}
+
+button.register::after {
+    content: "]";
+}
+
+button.register:hover {
+    background-color: rgb(196, 130, 130);
+}
+
+span {
+    font-family: "Century Gothic";
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+p {
+    font-family: "Century Gothic";
+    font-size: 24px;
+    margin-top: 10px;
+    text-align: center;
 }
 
 span.black {
@@ -23,7 +150,39 @@ span.red {
     color: rgb(249, 50, 50);
 }
 
-span {
-    font-size: 32px;
-    margin-top: 10px;
+span.timer {
+    margin-top: 50px;
+    font-size: 24px;
+}
+
+.sign-in .sign-in_title {
+    text-align: center;
+}
+
+table.blackredtable {
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.panel {
+    display: block;
+    margin-left: 100px;
+    margin-top: 200px;
+}
+
+input[type=text],
+input[type=password] {
+    font-family: "Consolas";
+    font-size: 18px;
+    border-radius: 4px;
+    padding: 3px;
+    text-align: center;
+}
+
+input[type=submit] {
+    font-family: "Century Gothic";
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
