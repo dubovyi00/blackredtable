@@ -13,20 +13,22 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "Test"
+      page: "SignIn"
     }
+    this.goToPage = this.goToPage.bind(this);
   }
 
 
   goToPage(page) {
-    console.log(page)
-    this.setState({ page });
+    
+    this.setState((state) => { return { page }; } );
+    console.log(this.state.page);
   }
   
   render() {
     return (
       <>
-        { this.state.page == "SignIn" && <SignIn goTo={this.goToPage} /> }
+        { this.state.page == "SignIn" && <SignIn goToPage={this.goToPage} /> }
         { this.state.page == "Test" && <Test goTo={this.goToPage} /> }
         { this.state.page == "TestResult" && <TestResult goTo={this.goToPage} /> }
         { this.state.page == "SummaryResult" && <SummaryResult goTo={this.goToPage} /> }

@@ -8,12 +8,33 @@ class SignIn extends React.Component {
         super(props);
         this.state = {
           login: "",
-          password: ""
+          password: "",
+          nextPage: ""
         };
+        this.sendCredentials = this.sendCredentials.bind(this);
+        this.registerTestee = this.registerTestee.bind(this);
+        this.registerResearcher = this.registerResearcher.bind(this);
+    }
+
+    componentDidUpdate() {
+        if (this.state.nextPage) {
+            this.props.goToPage(this.state.nextPage);
+        }
     }
 
     sendCredentials(){
-        this.props.goTo("Tutorial");
+        console.log(this.props)
+        this.setState({ nextPage: "Tutorial" })
+    }
+
+    registerTestee() {
+        console.log(this.props)
+        this.setState({ nextPage: "RegisterTestee" })
+    }
+
+    registerResearcher() {
+        console.log(this.props)
+        this.setState({ nextPage: "RegisterResearcher" })
     }
 
     render() {
@@ -45,13 +66,13 @@ class SignIn extends React.Component {
                         
 				    />
                     <br />
-                    <input type="submit" value="Войти" onClick={ this.sendCredentials.bind(this) } />
+                    <input type="submit" value="Войти" onClick={ this.sendCredentials } />
                 </div>
                 <div className="sign-in_register">
                     <span>Регистрация</span>
                     <div className="register-buttons">
-                        <button className="register">Вы - испытуемый(ая)?</button>
-                        <button className="register">Вы - исследователь?</button>
+                        <button className="register" onClick={ this.registerTestee }>Вы - испытуемый(ая)?</button>
+                        <button className="register" onClick={ this.registerResearcher }>Вы - исследователь?</button>
                     </div>
                 </div>
                 
