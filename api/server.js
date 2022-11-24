@@ -1,5 +1,4 @@
 var express = require('express');
-var socket = require('socket.io');
 var fs = require('fs');
 var util = require('util');
 var app = express();
@@ -24,8 +23,6 @@ app.use(bodyParser.json());
 
 //вход
 app.post('/auth', function (req, res) {
-    console.log("auth", req.body)
-
     pool.getConnection()
         .then(conn => {
             conn.query("SELECT * from admin")
