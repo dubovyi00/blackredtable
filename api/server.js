@@ -1,11 +1,9 @@
 var express = require('express');
 var fs = require('fs');
-var util = require('util');
 var app = express();
+var crypto = require('crypto');
 var server = app.listen(8888);
-const { send } = require('process');
 var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json({ limit: '10mb' })
 const mariadb = require('mariadb');
 var config = JSON.parse(fs.readFileSync('config.json'));
 
@@ -21,40 +19,66 @@ const pool = mariadb.createPool({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+function getHash(text) {
+    return crypto.createHash('sha384').update(text + config.salt).digest('hex');
+}
+
+function sendSuccess(res, success) {
+    res.send({ "data": success, "error": null })
+}
+
+function sendError(res, error) {
+    res.send({ "data": null, "error": error })
+}
+
 //вход
-app.post('/auth', function (req, res) {
-    pool.getConnection()
-        .then(conn => {
-            conn.query("SELECT * from admin")
-                .then((rows) => {
-                    console.log(rows); //[ {val: 1}, meta: ... ]
-                    //Table must have been created before 
-                    // " CREATE TABLE myTable (id int, val varchar(255)) "
-                    //return conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
-                })
-                .then((res) => {
-                    console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
-                    conn.end();
-                })
-                .catch(err => {
-                    //handle error
-                    console.log(err);
-                    conn.end();
-                })
+app.post('/auth', async function (req, res) {
+    if (req.body.login == null || req.body.password == null) {
+        sendError(res, "400")
+        return
+    }
 
-        }).catch(err => {
-            //not connected
-        });
+    var conn = await pool.getConnection()
+    try {
+        rows = await conn.query("SELECT * from admin WHERE login = ? AND password = ?;", [req.body.login, getHash(req.body.password)])
 
-    // req.body.login req.body.pass
-    res.send("hi, " + req.body.login)
+        if (rows.length == 0) {
+            sendError(res, "401")
+            return
+        }
+
+        sendSuccess(res, "Hello dear " + req.body.login)
+    } catch (error) {
+        console.log("error", error)
+        sendError(res, error)
+    }
+    conn.end()
 })
 
 //регистрация
-app.post('/register', function (req, res) {
-    console.log("register", req.body)
-    // req.body.login req.body.pass
-    res.send("okay, " + req.body.login)
+app.post('/register', async function (req, res) {
+    if (req.body.login == null || req.body.password == null) {
+        sendError(res, "400")
+        return
+    }
+
+    var conn = await pool.getConnection()
+    try {
+        rows = await conn.query("SELECT * from admin WHERE login = ?;", [req.body.login])
+
+        if (rows.length > 0) {
+            sendError(res, "409")
+            return
+        }
+        
+        rows = await conn.query("INSERT INTO admin (login, password) VALUES (?, ?);", [req.body.login, getHash(req.body.password)])
+
+        sendSuccess(res, "Welcome dear " + req.body.login)
+    } catch (error) {
+        console.log("error", error)
+        sendError(res, error.code)
+    }
+    conn.end()
 })
 
 //сохранение результата
