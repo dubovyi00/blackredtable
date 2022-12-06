@@ -1,6 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var app = express();
+var cors = require('cors')
 var crypto = require('crypto');
 var server = app.listen(8888);
 var bodyParser = require('body-parser')
@@ -18,6 +19,7 @@ const pool = mariadb.createPool({
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 function getHash(text) {
     return crypto.createHash('sha384').update(text + config.salt).digest('hex');
