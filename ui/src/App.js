@@ -13,7 +13,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "SignIn"
+      page: "RegisterResearcher"
     }
     this.goToPage = this.goToPage.bind(this);
   }

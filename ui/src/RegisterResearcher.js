@@ -8,9 +8,59 @@ class RegisterResearcher extends React.Component {
         super(props);
         this.state = {
           login: "",
-          password: ""
-
+          password: "",
+          error: 0,
+          created: false
         };
+
+        this.register = this.register.bind(this);
+    }
+
+    register() {
+        if (this.state.password.length >= 6 && this.state.login.length >= 5 && this.state.login.indexOf(' ') === -1) {
+            fetch("http://localhost:8888/api/register", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    login: this.state.login,
+                    password: this.state.password
+                }),
+                credentials: "include"
+            })
+            .then(response => {
+                if (response.status >= 400) {
+                    return this.setState(() => {
+                        return { admin: false };
+                    });
+                }
+                
+                else if (response.status === 200) {
+                    return this.setState(() => {
+                        return { 
+                            created: true,
+                            error: 0
+                        };
+                    });
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+                this.setState(() => {
+                    return { error: 2 };
+                });
+            });
+        } else if (this.state.password.length < 6 || this.state.login.length < 5) {
+            this.setState(() => {
+                return { error: 1 };
+            });
+        } else if (this.state.login.indexOf(' ') != -1) {
+            this.setState(() => {
+                return { error: 4 };
+            });
+        }
     }
 
     render() {
@@ -44,7 +94,7 @@ class RegisterResearcher extends React.Component {
                 </div>
                     
                 <br />
-                <input type="submit" value="Сохранить данные"  />
+                <input type="submit" value="Сохранить данные" onClick={ this.register } />
             </div>
         );
     }
